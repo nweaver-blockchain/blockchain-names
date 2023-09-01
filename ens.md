@@ -2,26 +2,26 @@
 layout: base
 ---
 
-# Blockchain Naming Scheme:
-Ethereum Name Service
+# Ethereum Name Service
 
 **Name-Service Concept:** The [Ethereum Naming Service
 (ENS)](https://ens.domains/) is a service that operates on top of the
 Ethereum blockchain platform.  Although a naming service, it is
 intended primarily not to map names to computers but instead names to
 data references such as cryptocurrency wallet addresses or IPFS
-(Inter-Planetary File System) identifiers.  Conceptually there are
-primary domains, like `.eth`, that represent new registrations but
-there is also support for existing domain holders to register their
-existing names using a DNSSEC verification method for some top level
-domains like `.xyz`.  Two recently added top level domains (`.kred`
-and `.luxe`) have custom integrations with ENS.
+((Inter-Planetary File System)[https://ipfs.tech/]) identifiers.
+Conceptually there are primary domains, like `.eth`, that represent
+new registrations but there is also support for existing domain
+holders to register their existing names using a DNSSEC verification
+method for some top level domains like `.xyz`.  Two recently added top
+level domains (`.kred` and `.luxe`) have custom integrations with ENS.
 
-**Name Resolution Process:** Systems that wish to resolve ENS names can
-take one of two approaches: they can either directly query a local
+**Name Resolution Process:** Systems that wish to resolve ENS names
+can take one of two approaches: they can either directly query a local
 copy of the Ethereum blockchain (requiring a full node which requires
 over 1 TB of storage and a 25 Mbps connection to maintain
-synchronized) or rely on a third party API service that conducts such
+synchronized) or rely on a [third party API
+service](https://docs.infura.io/networks/ethereum) that conducts such
 a query.  In either case the objective is to lookup records associated
 with a name, most commonly cryptocurrency addresses.
 
@@ -30,19 +30,18 @@ is hashed (using the Namehash strategy discussed later) and the
 storage for the master contract for the domain is read from the
 Ethereum blockchain.  That contains a pointer to a registrar contract
 which is responsible for authenticated storage of actual records.  The
-data storage associated with the registrar contract is then examined
-to obtain the desired records of the supported types.
+data storage associated with the registrar contract and the namehash
+is then examined to obtain the desired records of the supported types.
 
-Almost all users however just use one of several RESTful API providers
-that when queried for a name provide either some or all of the
-associated records in a JSON reply.  Their program simply connects to
-the provider, authenticates with an authentication token, and then
-conducts the query with the response record returned to the querying
-program.
+Almost all users however just use one of several third party RESTful
+API providers.  Their program simply connects to the provider,
+authenticates with an authentication token, and then conducts the
+querys with the response record returned to the querying program in
+the final form.
 
-**Ethereum’s Computational Model:** All ENS records are stored and updated
-using the Ethereum virtual machine (EVM).  Thus this imposes limits on
-how ENS can work in practice as all ENS updates involve EVM
+**Ethereum’s Computational Model:** All ENS records are stored and
+updated using the Ethereum virtual machine (EVM).  Thus this imposes
+limits on how ENS can work in practice as all ENS updates involve EVM
 transactions, so it is critical to discuss how Ethereum works in
 theory and practice.
 
@@ -88,7 +87,8 @@ at most, compute 500,000 256b adds per second yet costs $75 a second
 to use.  In comparison a <$75 Raspberry Pi 4, with its 1.5 GHz quad
 core superscalar ARM processor, can implement a 256b addition using 4,
 64b adds and thus has a theoretical maximum performance of 3 billion
-256b adds/second: over 4 orders of magnitude more powerful.
+256b adds/second: (over 4 orders of magnitude more
+powerful)[https://www.usenix.org/publications/loginonline/web3-fraud].
 
 Likewise storage is similarly expensive and is implemented as a
 key/value store using 256b keys and 256b data blocks.  Storing a 256b
@@ -123,17 +123,19 @@ if the data is read using an external program and the resulting
 information used in invoking the target smart contract.
 
 But there is a complication with such cost-saving behavior: Ethereum
-is an innately hostile computational fabric.
+is an (innately hostile computational
+fabric)[https://www.paradigm.xyz/2020/08/ethereum-is-a-dark-forest].
 
 Within a single block the different programs are considered to be
 implemented sequentially, but from the view of the block creator it is
 the block, not the individual programs, that are the atomic unit of
-operation.  This has led to the rise of MEV, or Miner/Maximal
-Extracted Value.  In MEV extraction a miner constructs the block,
-using additional private transactions, in order to gain additional
-revenue.  An example of MEV exploitation might be the miner
-automatically front-running a user trading on a decentralized exchange
-by inserting trades around the included transaction.
+operation.  This has led to the rise of MEV, or (Miner/Maximal
+Extracted Value)[https://ethereum.org/en/developers/docs/mev/].  In
+MEV extraction a miner constructs the block, using additional private
+transactions, in order to gain additional revenue.  An example of MEV
+exploitation might be the miner automatically front-running a user
+trading on a decentralized exchange by inserting trades around the
+included transaction.
 
 A related problem is that there are numerous actors who will both
 manually and automatically exploit flaws in Ethereum programs in an
@@ -153,26 +155,27 @@ to avoid going out of sync.  As such almost no Ethereum application
 relies on directly reading this data.
 
 Instead, Ethereum applications use third party services provided by
-centralized providers like Infura.  This includes browser extensions
-like MetaMask that are used to mediate interactions between a user’s
-cryptocurrency wallet and Ethereum applications.  Although in theory
-Ethereum users can use alternate data providers, in practice Ethereum
-users tend to use the default providers when deploying and interacting
-with Ethereum applications.
+centralized providers like (Infura)[https://infura.io].  This includes
+browser extensions like (MetaMask)[https://metamask.io] that are used
+to mediate interactions between a user’s cryptocurrency wallet and
+Ethereum applications.  Although in theory Ethereum users can use
+alternate data providers, in practice Ethereum users tend to use the
+default providers when deploying and interacting with Ethereum
+applications.
 
 **Development History and Organizational Model:** The Ethereum Name
 System is not primarily intended as a DNS replacement but instead as a
 mechanism to replace Ethereum public keys as the primary identifier of
 a user.  An Ethereum address is the hex representation of the last
-120b of the SHA3-256 hash of the ECDSA public key over curve secp256k1
-written as 40 hexadecimal digits, so
-`0xb794f5ea0ba39494ce839613fffba74279579268` is an example of a raw key.
-However, since such keys are easy to introduce errors, Ethereum added
-an additional (optional but highly recommended) checksumming procedure
-encoded in the key.
+120b of the Keccak-256 hash (a variant of SHA3-256) of the ECDSA
+public key over curve secp256k1 written as 40 hexadecimal digits, so
+`0xb794f5ea0ba39494ce839613fffba74279579268` is an example of a raw
+key.  However, since such keys are easy to introduce errors, Ethereum
+added an additional (optional but highly recommended) checksumming
+procedure encoded in the key.
 
 This checksum is encoded in the camel case for the hex characters for
-a-f.  The public key is hashed again with SHA3-256.  Each letter in
+a-f.  The public key is hashed again with Keccak-256.  Each letter in
 the hexadecimal representation of the public key is capitalized if the
 corresponding nibble in the hash is > 7.  Thus with an expected 15
 bits of encoding data, a typo should be accepted with probability of
@@ -214,7 +217,7 @@ system’s operation.
 
 **ENS namehash:** Overall, Ethereum has poor support for strings.  The
 storage model for persistent data is just 256b key/256b value pairs.
-Thus the initial core transformation necessary is a SHA3-256-based
+Thus the initial core transformation necessary is a Keccak-256-based
 hashing for names.  After normalizing to lower case and punycode as
 performed by DNS, ENS’s namehash is a recursive structure consisting
 of the hash of the current set as the hash of the upper level
@@ -222,21 +225,22 @@ concatenated with the current label and then hashed, with the hash of
 the empty string defined as 256 bits of 0s.
 
 So, for example, the hash of `an.example.eth` is calculated as
-H(H(H(`0x0..` || `‘eth’`) || `‘example’` || `‘an’`))).  This scheme results in
-a deterministic, hierarchical hash so a name will have not only a
-consistent hash for the label itself but a series of higher level
-hashes that can enforce a hierarchy.
+H(H(H(`0x0..` || `‘eth’`) || `‘example’` || `‘an’`))).  This scheme
+results in a deterministic, hierarchical hash so a name will have not
+only a consistent hash for the label itself but a series of higher
+level hashes that can enforce a hierarchy.
 
-**ENS registration procedure:** To register a name under the .eth ENS
-domain one first sends a commitment request to the registration
+**ENS registration procedure:** To register a name under the `.eth`
+ENS domain one first sends a commitment request to the registration
 contract, which is simply a 256b value constructed by hashing the name
 with a random 256b secret.  This transaction is relatively
 inexpensive, costing roughly 40,000 gas/$2.  After one minute the user
 should then send the registration request consisting of the name, the
-contract identifying the name’s owner, the 256b secret, and a validity
-time combined with a payment transfer.  This two-part registration
-request is to keep a hostile observer from registering the name as the
-commitment is meaningless without the 256b random secret.
+contract identifying the name’s owner (identified by an Ethereum
+public key), the 256b secret, and a validity time combined with a
+payment transfer.  This two-part registration request is to keep a
+hostile observer from registering the name as the commitment is
+meaningless without the 256b random secret.
 
 The `.eth` registrar charges $5 per year to register most names (a value
 priced in dollars and provided by an ‘oracle’ service which provides
@@ -254,20 +258,20 @@ This only acts to reserve the name in the `.eth` namespace.  To
 actually provide data the user must first set a ‘resolver’ contract
 associated with the name (40,000 gas/$2), and in that resolver
 contract the user can then provide mappings between the user’s domain
-and various types of records.  The resolver contract does not charge
-to introduce such data but the gas fees can be significant, as
+and various types of records.  The standard resolver contract does not
+charge to introduce such data but the gas fees can be significant, as
 updating a short TXT record is 100,000 gas/$5.
 
 Currently the ens default public resolver contract supports only a few
 data types: Ethereum addresses, addresses on other blockchains,
 content hashes for IPFS or similar systems, and text records that are
 formatted key/value pairs.  There is explicitly no support for
-DNS-type records (NS, A, CNAME, etc…) in the standard ENS public
+DNS-type records (NS, A, CNAME, etc...) in the standard ENS public
 resolver.
 
 The `.eth` registrar treats transferring names like any other
-non-fungible token, thus an individual can sell control of their `.eth`
-domain to another.  There exists a large number of such domains
+non-fungible token, thus an individual can sell control of their
+`.eth` domain to another.  There exists a large number of such domains
 available for sale on OpenSea or other NFT marketplaces.
 
 For existing DNS domains with added ENS support such as `.com` and
@@ -275,20 +279,21 @@ For existing DNS domains with added ENS support such as `.com` and
 query a DNSSEC-secured record for a domain to specify or update the
 ownership of an address by placing a TXT record with an Ethereum
 address as `_ens.{domain}`.  Then the registrar contract can be
-triggered, creating an ENS record controlled by the ethereum address.
-The owner address can then assign other records to the ENS name.
-These contracts only incur gas costs to use but, as previously seen,
-gas costs can be significant.
+triggered, creating an ENS record controlled by the ethereum address
+pointing to a resolver contract.  The owner address can then assign
+other records to the ENS name through the resolver contract.  These
+contracts only incur gas costs to use but, as previously seen, gas
+costs can be significant.
 
 **ENS name resolution:** Name resolution, unlike name registration,
 only requires reading data.  For name resolution one first queries the
 data for the registrar contract of the top level domain for the
 address of the resolver contract associated with the namehash of the
-target domain.  Then the registrar contract's data is then queried based on
-the namehash of the actual name for the particular fields desired.
-There exist multiple APIs for accessing this data, including
-JavaScript and Go, that rely on third party services to interpret the
-data on the Ethereum blockchain.
+target domain.  Then the registrar contract's data is then queried
+based on the namehash of the actual name for the particular fields
+desired.  There exist multiple APIs for accessing this data, including
+JavaScript and Go, that rely on third party services to provide the
+data from the Ethereum blockchain.
 
 **Dispute Resolution:** There exists no dispute mechanism within the `.eth`
 domain.  This is argued as a feature by the developers (names are
@@ -352,16 +357,17 @@ expected to cost roughly $5, if there is an urgent need to do an
 update at the wrong time it could cost $50 or more due to the
 exponentially increasing transaction fees.
 
-**ENS to DNS gateway:** An Ethereum developer, Virgil Griffiths, created a
-ENS to DNS gateway called `eth.link`.  Its primary use is not to resolve
-names directly, but instead to forward name requests to an IPFS to
-Internet gateway, such as the one run by Cloudflare as a centralized
-service.  This Cloudflare service itself looks up the IPFS file
-locator in the Ethereum blockchain and then acts as a proxy to IPFS to
-display the root web page corresponding to the `.eth` domain.
-Cloudflare’s IPFS proxy service provides 50 GB of transfer a month
-free before it charges the domain owner and the domain owner must
-create a Cloudflare account to enable access to their domain.
+**ENS to DNS gateway:** An Ethereum developer, Virgil Griffiths,
+created a ENS to DNS gateway called (`eth.link`)[https://eth.link].
+Its primary use is not to resolve names directly, but instead to
+forward name requests to an IPFS to Internet gateway, such as the one
+run by Cloudflare as a centralized service.  This Cloudflare service
+itself looks up the IPFS file locator in the Ethereum blockchain and
+then acts as a proxy to IPFS to display the root web page
+corresponding to the `.eth` domain.  Cloudflare’s IPFS proxy service
+provides 50 GB of transfer a month free before it charges the domain
+owner and the domain owner must create a Cloudflare account to enable
+access to their domain.
 
 The `eth.link` DNS gateway itself is currently involved in a legal
 dispute.  Virgil Griffiths is currently incarcerated for violations of
@@ -375,15 +381,24 @@ provides an equivalent gateway, looking up IPFS links and acting as an
 IPFS to HTTP gateway.  Neither service is formally affiliated with the
 group developing ENS.
 
-ENS & DNS combined TLDs: Two top level domains, `.kred` and `.luxe`, offer
-integration with ENS as part of their DNS service.
+ENS & DNS combined TLDs: Two top level domains, `.kred` and `.luxe`,
+offer integration with ENS as part of their DNS service.
 
 For the `.kred` TLD, a user also obtains an ENS name and an associated
 Ethereum token.  This token used to track ownership of the `.kred`
 name, and updates to the ENS data associated with this token are
 reflected in the DNS data: ENS data can contain a pointer to an IPFS
 link to store the DNS records and updates to the IPFS data update the
-DNS records.  The `.kred` registrar retains actual control of the DNS
+DNS records.
+
+Since the user's provided DNS records are stored in IPFS rather than
+Ethereum, this ensures that updates to the DNS records are free as
+they do not require updating data within the Ethereum blockchain.
+However, IPFS does not provide any notion of reliable storage without
+someone explicitly ensuring that a file continues to exist, forcing
+someone using this technique to maintain IPFS service.
+
+The `.kred` registrar retains actual control of the DNS
 records and can, in the case of a terms of service violation,
 forcefully update and change the ENS records as well.  Thus it is
 `.kred`, not the user, who in the end has control over the associated
@@ -413,22 +428,24 @@ result in a lack of dispute resolution but it is not absolute.  There
 are both the Ethereum validators themselves, which are controlled by a
 small cartel, and the centralized services that can and have executed
 censoring requests on behalf of the US government, primarily around
-Tornado Cash, a money laundering service favored by bad actors
-including North Korea.
+(Tornado Cash)[https://en.wikipedia.org/wiki/Tornado_Cash], a money
+laundering service favored by bad actors including North Korea.
 
 When the US government sanctions went into effect, Infura and other
 central data providers blocked access to the Tornado Cash contracts,
 making any external program (such as the Metamask browser extension)
 incapable of accessing this data.  And now a plurality of Ethereum
-blocks will not include transactions interacting with Tornado Cash.
+blocks (will not include transactions interacting with Tornado
+Cash)[https://www.mevwatch.info/].
 
 This includes the ENS records associated with Tornado Cash.  The ENS
 domains, `tornadocash.eth` and `tornadocashcommunity.eth` are not
 resolved by the `.eth.link` service, but `eth.limo` service will
 return HTTP 451 (blocked for legal reasons) for `tornadocash.eth` but
-fully supports `tornadocashcommunity.eth` despite the OFAC sanctions.
-Some API providers, such as Infura, block the lookup of records
-associated with the Tornado Cash ENS domains.
+fully supports
+(`tornadocashcommunity.eth`)[https://tornadocashcommunity.eth.limo]
+despite the OFAC sanctions.  Some API providers, such as Infura, block
+the lookup of records associated with the Tornado Cash ENS domains.
 
 **Record Enumeration:** The names directly registered under `.eth` are
 visible as the smart contract itself requires the clear text name in
@@ -448,4 +465,4 @@ update would spiral out of control due to the global limit on gas
 creation.  The cost to store data in Ethereum is currently roughly $30
 per kB under normal conditions.  Finally, Ethereum regularly
 experiences price shocks where a $5 operation suddenly costs $50 due
-to other usage demands
+to other usage demands.
