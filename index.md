@@ -6,7 +6,7 @@ layout: base
 
 This archive contains a series of reports on various Blockchain (and
 Blockchain-adjacent) Naming Systems, primarily authored by [Nicholas
-Weaver](mailto://nweaver@gmail.com).  This work was sponsored by
+Weaver](mailto://nweaver@icsi.berkeley.edu.com).  This work was sponsored by
 [ICANN](https://www.icann.org) but all opinions are those of the
 author, not of the funder.
 
@@ -16,4 +16,6 @@ contained in the Github repo
 Any suggestions or edits should be constructed into a pull request for
 evaluation and inclusion.
 
+The currently available documents
 
+- [Ethereum Name System (ENS)](ens)
