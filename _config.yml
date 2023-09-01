@@ -1,6 +1,7 @@
 lsi: false
 safe: true
 source: /pages
+destination: /
 incremental: false
 highlighter: rouge
 gist:
