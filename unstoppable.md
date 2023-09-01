@@ -129,15 +129,15 @@ firms have invested roughly $65M with a notional valuation of $1B.
 **Namehash:** Overall, Ethereum and Ethereum-derived systems have poor
 support for strings.  The storage model for persistent data is just
 256b key/256b value pairs.  Thus the initial core transformation
-necessary is a SHA3-256-based hashing for names.  After normalizing to
+necessary is a Keccak-256-based hashing for names.  After normalizing to
 lower case and punycode as performed by DNS, ENS’s namehash, which
 Unstoppable Domains adopts is a recursive structure consisting of the
 hash of the current set as the hash of the upper level concatenated
 with the current label and then hashed, with the hash of the empty
 string defined as 256 bits of 0s.
 
-So, for example, the hash of `an.unsoppable.crypto` is calculated as
-H(H(H(`0x0..` || `an`) || `unstoppable` || `crypto`))).  This scheme
+So, for example, the hash of `an.unstoppable.crypto` is calculated as
+H(H(H(`0x0..` || `crypto`) || `unstoppable` || `an`))).  This scheme
 results in a deterministic, hierarchical hash so a name will have not
 only a consistent hash for the label itself but a series of higher
 level hashes that can enforce a hierarchy.
