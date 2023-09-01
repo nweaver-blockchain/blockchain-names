@@ -1,7 +1,11 @@
+---
+layout: base
+---
+
 # The Blockchain Names Archive
 
-This archive contains a series of reports on various Blockchain Naming
-Systems, primarily authored by [Nicholas
+This archive contains a series of reports on various Blockchain (and
+Blockchain-adjacent) Naming Systems, primarily authored by [Nicholas
 Weaver](mailto://nweaver@gmail.com).  This work was sponsored by
 [ICANN](https://www.icann.org) but all opinions are those of the
 author, not of the funder.
