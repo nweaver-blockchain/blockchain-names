@@ -2,7 +2,7 @@
 layout: base
 ---
 
-# The Blockchain Names Archive
+# Blockchain Naming Systems Information Archive
 
 This archive contains a series of reports on various Blockchain (and
 Blockchain-adjacent) Naming Systems, primarily authored by [Nicholas
