@@ -9,7 +9,7 @@ layout: base
 Ethereum blockchain platform.  Although a naming service, it is
 intended primarily not to map names to computers but instead names to
 data references such as cryptocurrency wallet addresses or IPFS
-((Inter-Planetary File System)[https://ipfs.tech/]) identifiers.
+([Inter-Planetary File System](https://ipfs.tech/)) identifiers.
 Conceptually there are primary domains, like `.eth`, that represent
 new registrations but there is also support for existing domain
 holders to register their existing names using a DNSSEC verification
@@ -93,7 +93,7 @@ at most, compute 500,000 256b adds per second yet costs $75 a second
 to use.  In comparison a <$75 Raspberry Pi 4, with its 1.5 GHz quad
 core superscalar ARM processor, can implement a 256b addition using 4,
 64b adds and thus has a theoretical maximum performance of 3 billion
-256b adds/second: (over 4 orders of magnitude more powerful)[https://www.usenix.org/publications/loginonline/web3-fraud].
+256b adds/second: [over 4 orders of magnitude more powerful](https://www.usenix.org/publications/loginonline/web3-fraud).
 
 Likewise storage is similarly expensive and is implemented as a
 key/value store using 256b keys and 256b data blocks.
@@ -129,12 +129,12 @@ and the resulting information used in invoking the target smart
 contract.
 
 But there is a complication with such cost-saving behavior: Ethereum
-is an (innately hostile computational fabric)[https://www.paradigm.xyz/2020/08/ethereum-is-a-dark-forest].
+is an [innately hostile computational fabric](https://www.paradigm.xyz/2020/08/ethereum-is-a-dark-forest).
 
 Within a single block the different programs are considered to be
 implemented sequentially, but from the view of the block creator it is
 the block, not the individual programs, that are the atomic unit of
-operation.  This has led to the rise of MEV, or (Miner/Maximal Extracted Value)[https://ethereum.org/en/developers/docs/mev/].  In
+operation.  This has led to the rise of MEV, or [Miner/Maximal Extracted Value](https://ethereum.org/en/developers/docs/mev/).  In
 MEV extraction a miner constructs the block, using additional private
 transactions, in order to maximize their revenue.  An example of MEV
 exploitation might be the miner automatically front-running a user
@@ -159,8 +159,8 @@ to avoid going out of sync.  As such almost no Ethereum application
 relies on directly reading this data.
 
 Instead, Ethereum applications use third party services provided by
-centralized providers like (Infura)[https://infura.io].  This includes
-browser extensions like (MetaMask)[https://metamask.io] that are used
+centralized providers like [Infura](https://infura.io).  This includes
+browser extensions like [MetaMask](https://metamask.io) that are used
 to mediate interactions between a user’s cryptocurrency wallet and
 Ethereum applications.  Although in theory Ethereum users can use
 alternate data providers, in practice Ethereum users tend to use the
@@ -363,7 +363,7 @@ update at the wrong time it could cost $50 or more due to the
 exponentially increasing transaction fees.
 
 **ENS to DNS gateway:** An Ethereum developer, Virgil Griffiths,
-created a ENS to DNS gateway called (`eth.link`)[https://eth.link].
+created a ENS to DNS gateway called [`eth.link`](https://eth.link).
 Its primary use is not to resolve names directly, but instead to
 forward name requests to an IPFS to Internet gateway, such as the one
 run by Cloudflare as a centralized service.  This Cloudflare service
@@ -433,22 +433,22 @@ result in a lack of dispute resolution but it is not absolute.  There
 are both the Ethereum validators themselves, which are controlled by a
 small cartel, and the centralized services that can and have executed
 censoring requests on behalf of the US government, primarily around
-(Tornado Cash)[https://en.wikipedia.org/wiki/Tornado_Cash], a money
+[Tornado Cash](https://en.wikipedia.org/wiki/Tornado_Cash), a money
 laundering service favored by bad actors including North Korea.
 
 When the US government sanctions went into effect, Infura and other
 central data providers blocked access to the Tornado Cash contracts,
 making any external program (such as the Metamask browser extension)
 incapable of accessing this data.  And now a plurality of Ethereum
-blocks (will not include transactions interacting with Tornado
-Cash)[https://www.mevwatch.info/].
+blocks [will not include transactions interacting with Tornado
+Cash](https://www.mevwatch.info/).
 
 This includes the ENS records associated with Tornado Cash.  The ENS
 domains, `tornadocash.eth` and `tornadocashcommunity.eth` are not
 resolved by the `.eth.link` service, but `eth.limo` service will
 return HTTP 451 (blocked for legal reasons) for `tornadocash.eth` but
 fully supports
-(`tornadocashcommunity.eth`)[https://tornadocashcommunity.eth.limo]
+[`tornadocashcommunity.eth`](https://tornadocashcommunity.eth.limo)
 despite the OFAC sanctions.  Some API providers, such as Infura, block
 the lookup of records associated with the Tornado Cash ENS domains.
 

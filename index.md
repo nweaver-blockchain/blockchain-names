@@ -14,7 +14,7 @@ This archive is designed as a living and updateable set of documents
 contained in the Github repo
 [nweaver-blockchain/blockchain-names](https://github.com/nweaver-blockchain/blockchain-names/).
 Any suggestions or edits should be constructed into a pull request for
-evaluation and inclusion.
+evaluation and inclusion or submit an [issue](https://github.com/nweaver-blockchain/blockchain-names/issues).
 
 The currently available documents
 
