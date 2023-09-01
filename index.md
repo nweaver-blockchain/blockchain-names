@@ -20,3 +20,4 @@ The currently available documents
 
 - [Ethereum Name System (ENS)](ens)
 - [Unstoppable Domains](unstoppable)
+- [Gnu Name Service](gns)
