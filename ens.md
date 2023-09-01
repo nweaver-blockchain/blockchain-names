@@ -52,6 +52,12 @@ ledger outside the EVM has no cost, but executing a transaction that
 will update the ledger is charged ‘gas’ for each instruction executed
 by the virtual machine needed to complete the transaction.
 
+The EVM is a small stack machine with some specialized instructions
+that operates on 256b integers. This size was chosen to match both the
+256b length of Ethereum's primary hash function (Keccak-256 which
+almost identical to SHA3-256 but produces different values) and the
+public keys used in Ethereum.
+
 The model of computation requires that someone who wishes to make a
 transaction needs to provide a gas fee calculated as the number of
 units times the cost-per-unit.  If the computation completes the user
@@ -87,26 +93,26 @@ at most, compute 500,000 256b adds per second yet costs $75 a second
 to use.  In comparison a <$75 Raspberry Pi 4, with its 1.5 GHz quad
 core superscalar ARM processor, can implement a 256b addition using 4,
 64b adds and thus has a theoretical maximum performance of 3 billion
-256b adds/second: (over 4 orders of magnitude more
-powerful)[https://www.usenix.org/publications/loginonline/web3-fraud].
+256b adds/second: (over 4 orders of magnitude more powerful)[https://www.usenix.org/publications/loginonline/web3-fraud].
 
 Likewise storage is similarly expensive and is implemented as a
-key/value store using 256b keys and 256b data blocks.  Storing a 256b
-block of data at a 256b key into the Ethereum ledger uses a complex
-formula, but in the end writing a block of data to a new key requires
-slightly more than 20,000 gas while changing an existing key requires
-5000 gas.  Thus storing a new KB of data into the Ethereum ledger
-requires storing 640,000 gas, or roughly $30, while updating this data
-requires slightly less than $10.  Again, these represent normal costs
-but high demand can cause an exponential increase in the transaction
-fees.
+key/value store using 256b keys and 256b data blocks.
+Storing a 256b block of data at a 256b key into the Ethereum
+ledger uses a complex formula, but in the end writing a block of data
+to a new key requires slightly more than 20,000 gas while changing an
+existing key requires 5000 gas.  Thus storing a new KB of data into
+the Ethereum ledger requires consuming 640,000 gas, or roughly $30,
+while updating this data requires slightly less than $10.  Again,
+these represent normal costs but high demand can cause an exponential
+increase in the transaction fees.
 
 In building Ethereum applications it is thus critical to limit the
 amount of gas used whenever possible, as any update to Ethereum’s
 global state is significantly expensive which means although the
 Ethereum “smart contracts” represent general-purpose programs, it can
 be a substantial cost to perform any actual computations in this
-fabric.
+fabric.  Even a simple read operation of a 256b value from the
+key/value store can cost 2100 gas or roughly $.10.
 
 In contrast, reading the global state of Ethereum is free from the
 outside since it is a single global ledger of data.  So although
@@ -118,21 +124,19 @@ access to such data.
 This also means that Ethereum applications should, whenever possible,
 read data outside the actual execution of a smart contract as reading
 the data from the blockchain in the smart contract itself incurs gas
-fees (at 2100 gas per 256b value, or roughly $0.10) that do not occur
-if the data is read using an external program and the resulting
-information used in invoking the target smart contract.
+fee that do not occur if the data is read using an external program
+and the resulting information used in invoking the target smart
+contract.
 
 But there is a complication with such cost-saving behavior: Ethereum
-is an (innately hostile computational
-fabric)[https://www.paradigm.xyz/2020/08/ethereum-is-a-dark-forest].
+is an (innately hostile computational fabric)[https://www.paradigm.xyz/2020/08/ethereum-is-a-dark-forest].
 
 Within a single block the different programs are considered to be
 implemented sequentially, but from the view of the block creator it is
 the block, not the individual programs, that are the atomic unit of
-operation.  This has led to the rise of MEV, or (Miner/Maximal
-Extracted Value)[https://ethereum.org/en/developers/docs/mev/].  In
+operation.  This has led to the rise of MEV, or (Miner/Maximal Extracted Value)[https://ethereum.org/en/developers/docs/mev/].  In
 MEV extraction a miner constructs the block, using additional private
-transactions, in order to gain additional revenue.  An example of MEV
+transactions, in order to maximize their revenue.  An example of MEV
 exploitation might be the miner automatically front-running a user
 trading on a decentralized exchange by inserting trades around the
 included transaction.
@@ -167,7 +171,7 @@ applications.
 System is not primarily intended as a DNS replacement but instead as a
 mechanism to replace Ethereum public keys as the primary identifier of
 a user.  An Ethereum address is the hex representation of the last
-120b of the Keccak-256 hash (a variant of SHA3-256) of the ECDSA
+120b of the Keccak-256 hash of the ECDSA
 public key over curve secp256k1 written as 40 hexadecimal digits, so
 `0xb794f5ea0ba39494ce839613fffba74279579268` is an example of a raw
 key.  However, since such keys are easy to introduce errors, Ethereum
@@ -242,14 +246,15 @@ payment transfer.  This two-part registration request is to keep a
 hostile observer from registering the name as the commitment is
 meaningless without the 256b random secret.
 
-The `.eth` registrar charges $5 per year to register most names (a value
-priced in dollars and provided by an ‘oracle’ service which provides
-external data to the Ethereum smart contract) in addition to the gas
-fee necessary for the transaction.  Since this costs roughly 300,000
-gas the current cost to register a `.eth` name for a year is roughly
-$20, although the cost/year can be reduced by registering for a longer
-term.  Names less than 7 characters cost more per year and are only
-available by auction if they aren’t already registered.
+The `.eth` registrar charges $5 per year to register most names (a
+value priced in dollars and provided by an ‘oracle’ service which
+provides external data to an Ethereum smart contract by continually
+updating a value stored on the Ethereum blockchain) in addition to the
+gas fee necessary for the transaction.  Since this costs roughly
+300,000 gas the current cost to register a `.eth` name for a year is
+roughly $20, although the cost/year can be reduced by registering for
+a longer term.  Names less than 7 characters cost more per year and
+are only available by auction if they aren’t already registered.
 
 Names need to be renewed before the expiration period by paying
 $5/year (a transaction that also costs roughly 100,000 gas/$5).

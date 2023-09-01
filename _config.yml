@@ -1,4 +1,3 @@
-title: Blockchain Naming Systems
 email: nweaver@gmail.com
 theme: minima
 lsi: false
@@ -11,3 +10,4 @@ kramdown:
   math_engine: mathjax
   syntax_highlighter: rouge
 header_pages:
+  index.md
