@@ -5,8 +5,6 @@ description: Report on Blockchain Naming Systems
 theme: minima
 lsi: false
 safe: true
-source: /pages
-destination: /
 incremental: false
 highlighter: rouge
 gist:
