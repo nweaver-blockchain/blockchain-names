@@ -2,7 +2,7 @@
 layout: base
 ---
 
-# Unstoppable domains
+# Unstoppable Domains
 
 
 **Name-Service Concept:** The [Unstoppable
@@ -182,7 +182,7 @@ third party markets like OpenSea.  The smart contract itself does not
 enforce an additional transaction fee beyond the underlying “gas fee”
 necessary to transfer a name.
 
-Name resolution: Although in theory a name resolution system could
+**Name resolution**: Although in theory a name resolution system could
 directly access the data on the various blockchains (Unstoppable
 Domains will register across three different blockchains: Ethereum,
 Polygon (MATIC), and Zilliqa (ZIL)), resolution is performed almost
