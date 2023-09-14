@@ -1,4 +1,4 @@
-﻿---
+---
 layout: base
 ---
 
@@ -229,7 +229,7 @@ concatenated with the current label and then hashed, with the hash of
 the empty string defined as 256 bits of 0s.
 
 So, for example, the hash of `an.example.eth` is calculated as
-H(H(H(`0x0..` || `‘eth’`) || `‘example’` || `‘an’`))).  This scheme
+H(H(H(`0x0..` || `'eth'`) || `'example'` ||) `'an'`).  This scheme
 results in a deterministic, hierarchical hash so a name will have not
 only a consistent hash for the label itself but a series of higher
 level hashes that can enforce a hierarchy.
@@ -260,7 +260,7 @@ Names need to be renewed before the expiration period by paying
 $5/year (a transaction that also costs roughly 100,000 gas/$5).
 
 This only acts to reserve the name in the `.eth` namespace.  To
-actually provide data the user must first set a ‘resolver’ contract
+actually provide data the user must first set a 'resolver' contract
 associated with the name (40,000 gas/$2), and in that resolver
 contract the user can then provide mappings between the user’s domain
 and various types of records.  The standard resolver contract does not
@@ -302,7 +302,7 @@ data from the Ethereum blockchain.
 
 **Dispute Resolution:** There exists no dispute mechanism within the `.eth`
 domain.  This is argued as a feature by the developers (names are
-“uncensorable”), but this means that there can be no method to remove
+"uncensorable"), but this means that there can be no method to remove
 problematic domains, resolve )trademak disputes, nor even recover from
 cryptographic errors.
 
@@ -419,7 +419,7 @@ There is no mechanism for the ENS data to update the DNS data.
 
 **Security against Rollback Attacks:** Ethereum is regarded as a secure
 cryptocurrency, and applications on top of Ethereum do benefit from
-this security.  In particular a “double spending” attack is
+this security.  In particular a "double spending" attack is
 practically impossible without the collusion of a large number of
 those holding Ethereum cryptocurrency who act as block producers.
 
@@ -444,8 +444,8 @@ blocks [will not include transactions interacting with Tornado
 Cash](https://www.mevwatch.info/).
 
 This includes the ENS records associated with Tornado Cash.  The ENS
-domains, `tornadocash.eth` and `tornadocashcommunity.eth` are not
-resolved by the `.eth.link` service, but `eth.limo` service will
+domains, `tornadocash.eth` and `tornadocashcommunity.eth` were initially not
+resolved by the `.eth.link` service (but as of now resolution is working again), but `eth.limo` service will
 return HTTP 451 (blocked for legal reasons) for `tornadocash.eth` but
 fully supports
 [`tornadocashcommunity.eth`](https://tornadocashcommunity.eth.limo)
