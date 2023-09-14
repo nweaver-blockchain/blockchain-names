@@ -55,25 +55,25 @@ creation (creating a private key ***d*** and corresponding public key
 ***pk***), cryptographic signatures using ***d*** to generate and
 ***pk*** to sign, there is a key derivation function that accepts both
 ***d*** or ***pk*** and a label (e.g. `example`) to create a
-corresponding blinded public/private keypair ***d’*** and ***pk’***.
+corresponding blinded public/private keypair ***d'*** and ***pk'***.
 These blinded keys are unlinkable to the original key, meaning that
 without knowing (or brute-force searching) on the label it should be
-impossible to link ***pk*** and ***pk’***.
+impossible to link ***pk*** and ***pk'***.
 
 These blinded keys can also cryptographically sign and verify.  There
 are also two other functions, one to take the public zone key, label,
 and timestamp to perform symmetric encryption on records (`S-Encrypt()`)
-and the hash of ***pk’*** identifies the location in the DHT for storing
+and the hash of ***pk'*** identifies the location in the DHT for storing
 records associated with the label.
 
 The intent of this approach is to provide some level of privacy.
 Without knowing the label it should be impossible for an
 honest-but-curious DHT to link records, as each different label will
-produce a different blinded ***pk’*** used to both store and authenticate
+produce a different blinded ***pk'*** used to both store and authenticate
 the associated data records.  However, given the tendency for names to
 represent human meaningful, low entropy sources it is likely that a
 privacy-invasive DHT participant could simply brute force all the
-possible ***pk’*** based on human-readable labels in order to map the
+possible ***pk'*** based on human-readable labels in order to map the
 namespace of a zTLD.
 
 **The Distributed Hash Table:** The primary storage for GNS is
@@ -81,7 +81,7 @@ unspecified, as it instead relies on the presence of a separate
 distributed hash table to store records.  This DHT must accept 512b
 data keys and store sufficiently large data values at that location.
 To prevent further confusion this document will refer to the DHT key
-as an “index” rather than a key since it is not a cryptographic key
+as an "index" rather than a key since it is not a cryptographic key
 per-se.
 
 **Record Types:** GNS supports all DNS records as well as its own
@@ -91,17 +91,17 @@ address.
 
 **Name Storage & Resolution:** GNS uses these cryptographic primitives
 to build its secure domain resolution.  Given a name such as
-`a.b.{zTLD}`, the recursive lookup will first derive the ***pk’*** for
+`a.b.{zTLD}`, the recursive lookup will first derive the ***pk'*** for
 `b.{zTLD}`, which the hash is used for the index in the DHT.  The data
 stored in this location is all the data for `b.{zTLD}` contained as a
 sequence of records.  Each record has, in plaintext, the expiration
 time, the size of the record, the flags, and record type.  The records
 themselves can be arbitrary DNS records or GNS specific records.
 
-The data record block itself contains the blinded key ***pk’***, a
+The data record block itself contains the blinded key ***pk'***, a
 signature over the remaining encrypted data, and the expiration time.
 The remaining data in each record is encrypted with the `S-Encrypt()`
-function, which since it includes both the blinded key ***pk’***, the
+function, which since it includes both the blinded key ***pk'***, the
 label, and the expiration time, it can only be decrypted by someone
 who knows the original ***pk*** and knows or brute-force searches the
 label but anyone can verify that the block is valid without knowing
@@ -124,7 +124,7 @@ DHT, it is only used as the top level domain in records as they are
 set and looked up, so the DHT should never learn the original ***pk***
 from internal information.
 
-However, for a particular ***pk’***, the number, type, and size of
+However, for a particular ***pk'***, the number, type, and size of
 records is visible in plaintext, as otherwise a client would need to
 decrypt all the records for a name to resolve any given record.
 
@@ -136,7 +136,7 @@ derived key (and storage locations) are a function of the zTLD and the
 label itself.
 
 **Censoring Records:** The actual records stored in the DHT are
-self-attesting: the blinded zone key ***pk’*** is used to create both the
+self-attesting: the blinded zone key ***pk'*** is used to create both the
 index and to cryptographically sign the record block which includes a
 copy of the blinded zone key.  A GNS aware DHT can ensure that only
 valid records are stored in the DHT as it could reject any record
@@ -175,7 +175,7 @@ indistinguishable by the DHT from normal GNS records.
 
 **Dispute Resolution:** There is no method for dispute resolution in this
 system.  The zTLDs themselves are not human readable and thus probably
-do not need a dispute resolution system, but any provider of a widely
+do not need a dispute resolution system, but any central provider of a widely
 used TLD pet-name service (such as GANA's .alt) would be able to
 implement a dispute resolution system.
 
@@ -211,7 +211,7 @@ control over the domain for an additional period of time.
 
 **Security of Name to Data Mappings:** The data records in GNS are self
 attesting: the zTLD is the public key, while any given record is
-cryptographically signed and can be verified by the derived ***dk’***.
+cryptographically signed and can be verified by the derived ***dk'***.  However, any central mapping service mapping pet names to zTLDs has to be trusted, because the central mapping service sets the name to zTLD mapping, which is effectively a similar trust model to DNS.
 
 **Interacting with DNS:** GNS, unlike other alternate naming systems, is
 designed to integrate with existing DNS.  For names specified by zTLD,
