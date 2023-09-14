@@ -229,7 +229,7 @@ concatenated with the current label and then hashed, with the hash of
 the empty string defined as 256 bits of 0s.
 
 So, for example, the hash of `an.example.eth` is calculated as
-H(H(H(`0x0..` || `'eth'`) || `'example'` ||) `'an'`).  This scheme
+H(H(H(`0x0..` || `eth`) || `example` ) || `an`).  This scheme
 results in a deterministic, hierarchical hash so a name will have not
 only a consistent hash for the label itself but a series of higher
 level hashes that can enforce a hierarchy.
