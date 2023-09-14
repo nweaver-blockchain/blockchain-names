@@ -2,15 +2,16 @@
 layout: base
 ---
 
-# Gnu Name System
+# GNU Name System
 
-**Name-Service Concept:** The GNU Name Service (GNS) is designed to offer
-a distributed naming scheme that is cryptographically authenticated.
-A zone is identified not by human readable names but by a public key
-used to sign the data, forming the only globally consistent namespace.
-Instead, users are intended to create a local configuration mapping
-human readable zone names to public keys, creating a deliberately
-inconsistent global namespace.
+**Name-Service Concept:** The [GNU Name System
+(GNS)](https://lsd.gnunet.org/lsd0001/) is designed to offer a
+distributed, censorship-resistant naming scheme that is
+cryptographically authenticated.  A zone is identified not by human
+readable names but by a public key used to sign the data, forming the
+only globally consistent namespace.  Instead, users are intended to
+create a local configuration mapping human readable zone names to
+public keys, creating a deliberately inconsistent global namespace.
 
 The GNS system is also incomplete: it only specifies the wire format
 and the resolution client.  Actually obtaining the data elements
@@ -18,7 +19,7 @@ themselves relies on the presence of a separate distributed hash table
 (DHT) to load and store key/value pairs.  Current implementations use
 R5N, the GNU Network distributed hash table.
 
-**zTLDs and “Pet Names”:** The primary concept behind GNS as a naming
+**zTLDs and "Pet Names"**: The primary concept behind GNS as a naming
 system is that primary names (zone Top Level Domains or zTLDs) are
 self attesting as they are effectively the public key associated with
 all records for that zTLD.  By signing all data with the corresponding
@@ -36,9 +37,16 @@ DNS style namespace to a particular zTLD, so `.gnu` might refer to
 The result is that although the global cryptographic namespace is
 consistent among all clients, any fully human readable names will be
 inconsistent unless all users use a common source for their pet names.
-The GNU Name System’s GNUnet Assigned Numbers Authority (GANA) offers
+The GNU Name System's GNUnet Assigned Numbers Authority (GANA) offers
 a first-come, first-served mapping for mapping human-readable
 subdomains in an `.alt` pet-named GNS to zTLDs.
+
+Note that although GNU Name System could be used to create a globally
+consistent, human readable namespace in the same manner that DNS does,
+by having a common root of trust that effectively everyone agrees to
+use, doing so would require the creation of a central authority.  The
+use of a central authority runs counter to the decentralization and
+censorship-resistant goals of GNS.
 
 **Cryptographic Primitives:** The primary cryptographic primitives are
 based on public key operations, although there are some special
@@ -145,6 +153,12 @@ existence.  If a client attempts to fetch data at an index and
 receives no data, it has no way of determining if there is no data or
 if the DHT itself is blocking access to that data.
 
+Finally, the censorship resistant property remains only as long as
+there is no attempt for globally consistent, human readable names.  If
+there is a central authority that is a commonly trusted root of trust,
+that central authority can and likely will have to remove
+human-readable names subject to various legal processes.
+
 **Abusing the DHT:** Even a DHT that only supported GNS records could be
 abused by a GNS-derived service to store arbitrarily large data blocks
 throughout the DHT, allowing the DHT to be silently co-opted to
@@ -162,7 +176,7 @@ indistinguishable by the DHT from normal GNS records.
 **Dispute Resolution:** There is no method for dispute resolution in this
 system.  The zTLDs themselves are not human readable and thus probably
 do not need a dispute resolution system, but any provider of a widely
-used TLD pet-name service (such as GANA’s .alt) would be able to
+used TLD pet-name service (such as GANA's .alt) would be able to
 implement a dispute resolution system.
 
 **Recovery from Cryptographic Failures:** If a zone operator loses
@@ -180,7 +194,7 @@ ledger to maintain all these records.
 These revocation messages include a proof of work to prevent flooding
 this space, but this scheme also has revocation messages expiring
 after a year.  So in order to ensure that a revocation actually
-persists a longer proof of work needs to be generated or the “revoked”
+persists a longer proof of work needs to be generated or the 'revoked'
 key needs to be maintained to create new revocation messages on an
 annual basis.
 
@@ -207,12 +221,15 @@ should use ordinary DNS.  GNS specifically supports the entire 16b
 space of DNS RTYPES, and can include redirection records in GNS that
 redirect to DNS resources.
 
-**Conclusions:** The largest concern with GNS is the lack of a globally
-consistent human-readable namespace.  It is impossible to ensure that
-pet-names are consistent, thus all GNS records should be identified by
-zTLD.  This is effectively unusable if a GNS name needs to directly
-interact with a human, such as in a URL or other resource where a
-human is expected to understand, remember, or transmit a name.
+**Conclusions:** The largest concern with GNS is the lack of a
+globally consistent human-readable namespace.  It is impossible to
+ensure that pet-names are consistent, thus all GNS records should be
+identified by zTLD.  The only way to implement this would require a
+common central authority which runs counter to the goals of
+decentralization and censorship resistance.  This is effectively
+unusable if a GNS name needs to directly interact with a human, such
+as in a URL or other resource where a human is expected to understand,
+remember, or transmit a name.
 
 The other concern is that GNS is currently an incomplete system: it
 only specifies a data format and resolution process, the key problem
