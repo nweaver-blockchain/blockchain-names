@@ -224,12 +224,12 @@ redirect to DNS resources.
 **Conclusions:** The largest concern with GNS is the lack of a
 globally consistent human-readable namespace.  It is impossible to
 ensure that pet-names are consistent, thus all GNS records should be
-identified by zTLD.  The only way to implement this would require a
-common central authority which runs counter to the goals of
-decentralization and censorship resistance.  This is effectively
-unusable if a GNS name needs to directly interact with a human, such
-as in a URL or other resource where a human is expected to understand,
-remember, or transmit a name.
+identified by zTLD.  The only way to avoid inconsistency amongst pet
+names would require a common central authority which runs counter to
+the goals of decentralization and censorship resistance.  This is
+effectively unusable if a GNS name needs to directly interact with a
+human, such as in a URL or other resource where a human is expected to
+understand, remember, or transmit a name.
 
 The other concern is that GNS is currently an incomplete system: it
 only specifies a data format and resolution process, the key problem
