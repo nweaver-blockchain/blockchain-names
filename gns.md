@@ -10,8 +10,8 @@ distributed, censorship-resistant naming scheme that is
 cryptographically authenticated.  A zone is identified not by human
 readable names but by a public key used to sign the data, forming the
 only globally consistent namespace.  Instead, users are intended to
-create a local configuration mapping human readable zone names to
-public keys, creating a deliberately inconsistent global namespace.
+create a local configuration mapping individual human readable zone names to
+public keys, which would create an inconsistent global namespace.
 
 The GNS system is also incomplete: it only specifies the wire format
 and the resolution client.  Actually obtaining the data elements
@@ -29,14 +29,14 @@ to the particular zTLD maintain cryptographic integrity.
 However, this approach results in the top level domains of the global
 namespace only consisting of non-human-readable entities, such as
 `example.000G006K2TJNMD9VTCYRX7BRVV3HAEPS15E6NHDXKPJA1KAJJEG9AFF884`.  A
-GNS client however can internally specify “Pet Names”, a mapping of a
+GNS client however can internally specify "Pet Names", a mapping of a
 DNS style namespace to a particular zTLD, so `.gnu` might refer to
 `000G006K2TJNMD9VTCYRX7BRVV3HAEPS15E6NHDXKPJA1KAJJEG9AFF884`, so
 `example.gnu` could be resolved by a GNS client.
 
 The result is that although the global cryptographic namespace is
 consistent among all clients, any fully human readable names will be
-inconsistent unless all users use a common source for their pet names.
+inconsistent unless users use a common source for their pet names.
 The GNU Name System's [GNUnet Assigned Numbers Authority (GANA)](https://gana.gnunet.org/) offers
 a first-come, first-served mapping for mapping human-readable
 subdomains in an `.alt` pet-named GNS to zTLDs.
@@ -226,10 +226,12 @@ globally consistent human-readable namespace.  It is impossible to
 ensure that pet-names are consistent, thus all GNS records should be
 identified by zTLD.  The only way to avoid inconsistency amongst pet
 names would require a common central authority which runs counter to
-the goals of decentralization and censorship resistance.  This is
-effectively unusable if a GNS name needs to directly interact with a
-human, such as in a URL or other resource where a human is expected to
-understand, remember, or transmit a name.
+the goals of decentralization and censorship resistance.
+
+Without such a central authority this system would be likely unusable
+if a GNS name needs to directly interact with a human, such as in a
+URL or other resource where a human is expected to understand,
+remember, or transmit a name.
 
 The other concern is that GNS is currently an incomplete system: it
 only specifies a data format and resolution process, the key problem
