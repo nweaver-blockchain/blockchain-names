@@ -5,7 +5,7 @@ layout: base
 # Blockchain Naming Systems
 
 This archive contains a series of reports on various Blockchain (and
-Blockchain-adjacent) Naming Systems, primarily authored by [Nicholas
+other decentralized) Naming Systems, primarily authored by [Nicholas
 Weaver](mailto://nweaver@icsi.berkeley.edu.com).  This work was sponsored by
 [ICANN](https://www.icann.org) but all opinions are those of the
 author, not of the funder.
