@@ -303,7 +303,7 @@ data from the Ethereum blockchain.
 **Dispute Resolution:** There exists no dispute mechanism within the `.eth`
 domain.  This is argued as a feature by the developers (names are
 “uncensorable”), but this means that there can be no method to remove
-problematic domains, resolve trademark disputes, nor even recover from
+problematic domains, resolve )trademak disputes, nor even recover from
 cryptographic errors.
 
 The ownership of domains themselves is also pseudonymous, only
