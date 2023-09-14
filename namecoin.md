@@ -201,8 +201,8 @@ With no dispute resolution it is impossible for the target to reclaim
 control of a domain.
 
 **Underlying Cryptocurrency Security:** The Namecoin cryptocurrency,
-although a low-value proof of work cryptocurrency, uses “merged
-mining” with the Bitcoin blockchain.  In merged mining a Bitcoin miner
+although a low-value proof of work cryptocurrency, uses "merged
+mining" with the Bitcoin blockchain.  In merged mining a Bitcoin miner
 can simultaneously mine Namecoin.  So although the profit for mining
 Namecoin is near trivia (roughly $1200/day for all Namecoin miners,
 compared with about $18M/day for Bitcoin), the actual hash-rate
@@ -211,9 +211,12 @@ attacks is substantially more.  Since the cost for the miner to
 support merged mining is effectively $0, many mining pools will mine
 Namecoin alongside Bitcoin just to obtain an extra 0.007% profit.
 
-However, this does mean that Namecoin is dependent on Bitcoin’s near
+However, this does mean that Namecoin is dependent on Bitcoin's near
 criminal levels of energy consumption for securing the system.
-Bitcoin currency consumes as much power as a medium-sized country.
+Bitcoin currency [consumes as much power as a medium-sized country,
+such as the
+Netherlands or the Pillippines](https://digiconomist.net/bitcoin-energy-consumption),
+estimated at 110 TWh per year and producing 60 kt of electronic waste.
 
 **Security against Rollback Attacks:** A double-spend attack is effectively a rollback attack, allowing an attacker to rollback history and then replay it in a different manner.  Because Namecoin uses merged mining, a rollback attack is effectively impossible unless the attacker is willing to spend many millions of dollars.
 
