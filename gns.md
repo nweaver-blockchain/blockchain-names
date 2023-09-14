@@ -37,7 +37,7 @@ DNS style namespace to a particular zTLD, so `.gnu` might refer to
 The result is that although the global cryptographic namespace is
 consistent among all clients, any fully human readable names will be
 inconsistent unless all users use a common source for their pet names.
-The GNU Name System's GNUnet Assigned Numbers Authority (GANA) offers
+The GNU Name System's [GNUnet Assigned Numbers Authority (GANA)](https://gana.gnunet.org/) offers
 a first-come, first-served mapping for mapping human-readable
 subdomains in an `.alt` pet-named GNS to zTLDs.
 
